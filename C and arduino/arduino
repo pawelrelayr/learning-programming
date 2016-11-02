@@ -1,0 +1,323 @@
+arduino
+
+1. Mruganie dioda
+
+
+void setup() {
+pinMode(8,OUTPUT);
+
+}
+
+void loop() {
+digitalWrite(8,HIGH);
+delay(1000);
+digitalWrite(8,LOW);
+delay(1000);
+}
+
+2. Dioda + przycisk
+
+void setup()
+{
+pinMode(8, OUTPUT);
+pinMode(7, INPUT_PULLUP);
+pinMode(8, LOW);
+}
+
+void loop()
+{
+if(digitalRead(7) == LOW)
+{
+  digitalWrite(8, HIGH);
+
+}
+else
+{
+digitalWrite(8,LOW);
+}
+}
+
+
+3. Dioda + przycisk + opoznienie,mruganie na zmiane
+
+
+void setup()
+{
+pinMode(8, OUTPUT);
+pinMode(7, INPUT_PULLUP);
+pinMode(8, LOW);
+pinMode(9, OUTPUT);
+pinMode(9, LOW);
+}
+
+void loop()
+{
+if(digitalRead(7) == LOW)
+{
+  digitalWrite(8, HIGH);
+  delay(5000);
+  digitalWrite(8,LOW);
+  delay(1000);
+  digitalWrite(9, HIGH);
+  delay(5000);
+  digitalWrite(9,LOW);
+
+}
+}
+
+4.
+
+void setup() {
+  pinMode(10, OUTPUT); //Dioda czerwona
+  pinMode(9, OUTPUT); //Dioda żółta
+  pinMode(8, OUTPUT); //Dioda zielona
+ 
+  pinMode(7, INPUT_PULLUP); //Przycisk
+ 
+  digitalWrite(10, LOW); //Wyłączenie diod
+  digitalWrite(9, LOW);
+  digitalWrite(8, LOW);
+}
+ 
+void loop()
+{
+  digitalWrite(10, LOW); //Czerwona
+  digitalWrite(9, LOW); //Pomarańczowa
+  digitalWrite(8, HIGH); //Zielona
+
+  delay(1000); //Zatrzymujemy program przed wejsciem do pętli na 1 sekunde
+  while (digitalRead(7) == HIGH) {} //Jeśli przycisk jest wciśnięty
+
+  digitalWrite(10, LOW); //Czerwona
+  digitalWrite(9, HIGH); //Pomarańczowa
+  digitalWrite(8, LOW); //Zielona
+
+  delay(1000); //Zatrzymujemy program przed wejsciem do pętli na 1 sekunde
+  while (digitalRead(7) == HIGH) {} //Jeśli przycisk jest wciśnięty
+
+  digitalWrite(10, HIGH); //Czerwona
+  digitalWrite(9, LOW); //Pomarańczowa
+  digitalWrite(8, LOW); //Zielona
+
+  delay(1000); //Zatrzymujemy program przed wejsciem do pętli na 1 sekunde
+  while (digitalRead(7) == HIGH) {} //Jeśli przycisk jest wciśnięty
+
+  digitalWrite(10, HIGH); //Czerwona
+  digitalWrite(9, HIGH); //Pomarańczowa
+  digitalWrite(8, LOW); //Zielona
+
+  delay(1000); //Zatrzymujemy program przed wejsciem do pętli na 1 sekunde
+  while (digitalRead(7) == HIGH) {} //Jeśli przycisk jest wciśnięty
+}
+
+
+5. zmiana diod przyciskiem + wyswietlanie tekstu
+
+
+void setup()
+{
+Serial.begin(9600);
+
+pinMode(7, INPUT_PULLUP);
+pinMode(8, OUTPUT);
+pinMode(9, OUTPUT);
+
+digitalWrite(8, LOW);
+digitalWrite(9, LOW);
+}
+
+void loop()
+{
+if (digitalRead(7) == LOW)
+{
+ digitalWrite(8, HIGH);
+ digitalWrite(9, LOW);
+ Serial.println("Wylaczony silnik");
+ delay(10000);
+}
+else
+{
+digitalWrite(8, LOW);
+digitalWrite(9, HIGH);
+Serial.println("Wlaczony silnik");
+delay(10000);
+}
+}
+
+
+6. resetuje licznik co 15 sek
+
+int licznik = 0;
+
+void setup()
+{
+Serial.begin(9600);
+
+}
+
+void loop()
+{
+  Serial.println(licznik);
+  licznik = licznik + 1;
+  delay(1000);
+  if (licznik == 15)
+  {
+    Serial.println("15 -> minal kwadrans");
+    delay(0);
+    licznik = 0;
+  }
+}
+
+7.
+
+String odebraneDane = ""; //pusty ciag odebranych danych
+
+void setup()
+{
+Serial.begin(9600);
+}
+
+void loop()
+{
+  if(Serial.available() > 0) //sprawdzamy czy arduino odbiera dane
+  {
+  odebraneDane = Serial.readStringUntil ('\n'); //Jeśli tak, to odczytaj je do
+  //znaku końca linii i zapisz w zmiennej odebraneDane
+
+  Serial.println("Witaj " + odebraneDane + "!");
+  }
+}
+
+8. wlaczanie diod slowami
+
+#define zielona 8
+#define czerwona 9
+
+String odebraneDane = "";
+
+void setup()
+{
+Serial.begin(9600);
+pinMode(zielona, OUTPUT);
+pinMode(czerwona, OUTPUT);
+
+digitalWrite(zielona, LOW);
+digitalWrite(czerwona, LOW);
+
+}
+void loop()
+{
+  if(Serial.available() > 0)
+  {
+  odebraneDane = Serial.readStringUntil('\n');
+
+
+    if(odebraneDane == "zielona")
+    {
+    digitalWrite(zielona, HIGH);
+    delay(2000);
+    digitalWrite(zielona, LOW);
+    }
+
+
+
+    if(odebraneDane == "czerwona")
+    {
+    digitalWrite(czerwona, HIGH);
+    delay(2000);
+    digitalWrite(czerwona, LOW);
+    }
+
+  }
+}
+
+9. wlaczanie stanow przeciwnych Stringiem
+
+#define zielona 8
+#define czerwona 9
+
+String odebraneDane = "";
+
+boolean stanZielona = false;
+boolean stanCzerwona = false;
+
+void setup()
+{
+Serial.begin(9600);
+pinMode(zielona, OUTPUT);
+pinMode(czerwona, OUTPUT);
+
+digitalWrite(zielona, LOW);
+digitalWrite(czerwona, LOW);
+
+
+}
+void loop()
+{
+  if(Serial.available() > 0)
+  {
+  odebraneDane = Serial.readStringUntil('\n');
+
+
+    if(odebraneDane == "zielona")
+    {
+    stanZielona = !stanZielona;
+    }
+
+    if(odebraneDane == "czerwona")
+    {
+    stanCzerwona = !stanCzerwona;
+    }
+
+    digitalWrite(zielona, stanZielona);
+    digitalWrite(czerwona, stanCzerwona);
+  }
+}
+
+10.
+
+int odczytanaWartosc = 0;
+float napiecie = 0;
+void setup() {
+  Serial.begin(9600);//Uruchomienie komunikacji przez USART
+}
+
+void loop() {
+  odczytanaWartosc = analogRead(A5);//Odczytujemy wartość napięcia
+  napiecie = odczytanaWartosc * (5.0/1023.0);
+  Serial.println(napiecie);//Wysyłamy ją do terminala
+  delay(1000);//Czekamy, aby wygodniej odczytywać wyniki
+}
+
+11.
+
+int odczytanaWartosc = 0;
+
+void setup()
+{
+  Serial.begin(9600);//Uruchomienie komunikacji przez USART
+
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+}
+
+void loop()
+{
+  odczytanaWartosc = analogRead(A5);//Odczytujemy wartość napięcia
+  odczytanaWartosc = map(odczytanaWartosc, 0, 1023, 1, 5);
+  if(odczytanaWartosc <= 2)
+  {
+  digitalWrite(8, HIGH);
+  digitalWrite(9, LOW);
+  }
+  else if(odczytanaWartosc >= 4)
+  {
+  digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);
+  }
+  Serial.println(odczytanaWartosc);
+  delay(500);
+}
+
+
+12.

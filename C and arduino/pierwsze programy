@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+int main (void){
+printf("My first program in C");
+return 0;
+}
+
+————————————————————————
+
+
+#include <stdio.h>
+
+int main (void){
+
+int Sth = 0;
+Sth = 5 + printf("hello");
+
+printf("     Displaying a number: %d", Sth);
+
+return 0;
+}
+ -------------------------
+
+
+#include <stdio.h>
+
+int main(void){
+unsigned int u = 5;
+printf(" the value is: %d", u);
+
+return 0;
+}
+
+---------------------
