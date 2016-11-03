@@ -319,5 +319,78 @@ void loop()
   delay(500);
 }
 
+12. serwomechanizm
 
-12.
+
+#include <Servo.h>
+
+Servo serwomechanizm;
+int pozycja = 0;
+int zmiana = 6;
+//int opoznienie = 0;
+//int zmianaOpoznienia = 50;
+
+void setup()
+{
+serwomechanizm.attach(9);
+
+}
+
+void loop()
+{
+if (pozycja < 180){
+serwomechanizm.write(pozycja);
+} else{
+pozycja = 0;
+}
+
+//if(opoznienie >=0){
+//opoznienie = opoznienie + zmianaOpoznienia;
+//} else if (opoznienie == 1000){
+//opoznienie = 0;
+//}
+
+
+pozycja = pozycja + zmiana;
+delay(200);
+}
+
+13. serwomechanizm z opoznieniem
+
+
+
+#include <Servo.h>
+
+Servo serwomechanizm;
+int pozycja = 0;
+int zmiana = 6;
+int opoznienie = 0;
+int zmianaOpoznienia = 50;
+
+void setup()
+{
+serwomechanizm.attach(9);
+
+}
+
+void loop()
+{
+if (pozycja < 180){
+serwomechanizm.write(pozycja);
+} else{
+pozycja = 0;
+}
+
+if(opoznienie >=0){
+opoznienie = opoznienie + zmianaOpoznienia;
+} else if (opoznienie == 1000){
+opoznienie = 0;
+}
+
+
+pozycja = pozycja + zmiana;
+delay(opoznienie);
+}
+
+
+14.
