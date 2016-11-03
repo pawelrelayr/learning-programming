@@ -385,3 +385,84 @@ delay(opoznienie);
 
 
 14.
+
+
+#include <Servo.h>
+
+Servo servomotor;
+//int pozycja = 0;
+//int zmiana = 6;
+String receivedData = "";
+int receivedData_int;
+void setup()
+{
+  Serial.begin(9600);
+  servomotor.attach(9);
+
+}
+
+void loop()
+{
+  if (Serial.available() > 0)
+  {
+    receivedData = Serial.readStringUntil('\n');
+    receivedData_int = receivedData.toInt();
+  }
+  if (receivedData_int <= 180 && receivedData_int >= 0)
+  {
+  Serial.println("The given angle: ");
+  Serial.println(receivedData_int);
+  delay(1000);
+  servomotor.write(receivedData_int);
+  } else
+  {
+  Serial.println("Wrong angle");
+  delay(1000);
+  }
+//pozycja = pozycja + zmiana;
+
+}
+
+15.
+
+
+#include <Servo.h>
+Servo servomotor;
+int receivedValue = 0;
+int voltage = 0;
+int angle = 0;
+
+void setup()
+{
+  Serial.begin(9600);
+  servomotor.attach(9);
+
+}
+
+void loop()
+{
+// receivedValue = analogRead(A5);
+// voltage = receivedValue * (5.0/1023);
+// Serial.print("The voltage is: ");
+// Serial.println(voltage);
+// delay(500);
+// angle = voltage * (180/5);
+// Serial.print("The angle is ");
+// Serial.println(angle);
+// servomotor.write(angle);
+
+for(angle = 0; angle < 180; angle+=5)
+{
+  servomotor.write(angle);
+  Serial.println(angle);
+  delay(500);
+}
+
+for(; angle >= 0; angle-=5)
+{
+  servomotor.write(angle);
+  Serial.println(angle);
+  delay(500);
+}
+
+}
